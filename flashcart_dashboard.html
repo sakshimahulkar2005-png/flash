@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Flashcart Customer Satisfaction Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#E6E6E6;--card:#fff;--tx:#252423;--mu:#605E5C;--bd:#D2D0CE;--hd:#374649;--teal:#01B8AA;--red:#FD625E;--yel:#F2C80F;--org:#FE9666;--blue:#8AD4EB;--pur:#A66999;--gr:#5F6B6D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1a19;--card:#2b2a29;--tx:#f3f2f1;--mu:#c8c6c4;--bd:#484644}}
+:root[data-theme="dark"]{--bg:#1b1a19;--card:#2b2a29;--tx:#f3f2f1;--mu:#c8c6c4;--bd:#484644}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:13px "Segoe UI",Tahoma,Arial,sans-serif;padding-bottom:44px}
+.top{background:var(--hd);color:#fff;padding:10px 16px}.top h1{margin:0;font-size:20px;font-weight:600}.top small{opacity:.8}
+.pg{display:none;padding:8px;gap:8px}.pg.on{display:flex;flex-wrap:wrap;align-items:flex-start}
+.v{background:var(--card);border:1px solid var(--bd);padding:8px 10px;min-width:0}
+.v h4{margin:0 0 6px;font-size:12px;font-weight:600;color:var(--tx)}
+.side{width:180px}.main{flex:1;min-width:300px;display:flex;flex-direction:column;gap:8px}.rw{display:flex;gap:8px;flex-wrap:wrap}.rw>.v{flex:1 1 220px}
+.sl{display:flex;align-items:center;gap:7px;padding:3px 2px;cursor:pointer}.sl i{width:13px;height:13px;border:1px solid var(--gr);flex:none}.sl.s i{background:var(--teal);border-color:var(--teal)}.sl em{margin-left:auto;font-style:normal;color:var(--mu)}
+.sh{font-weight:600;margin:8px 0 3px}.card{text-align:center;padding:10px}.card b{display:block;font-size:30px;font-weight:400;color:var(--tx)}.card span{color:var(--mu)}
+.hb{display:grid;grid-template-columns:105px 1fr 34px;gap:6px;align-items:center;margin:4px 0;font-size:12px}.hb div{background:var(--bd);height:14px}.hb div i{display:block;height:100%}
+.cols{display:flex;align-items:flex-end;gap:14px;height:130px;padding-top:6px;border-bottom:1px solid var(--gr)}.cl{flex:1;text-align:center;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;height:100%}.cl i{display:block;margin:auto 12% 0;width:76%}.cn{display:flex;gap:14px}.cn span{flex:1;text-align:center;font-size:11px;color:var(--mu);margin-top:3px}
+table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;border-bottom:2px solid var(--gr);padding:4px 6px;font-weight:600}td{padding:4px 6px;border-bottom:1px solid var(--bd)}td.n,th.n{text-align:center}
+.ov{overflow-x:auto}.dn{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.dn svg{width:130px;flex:none}.lg div{cursor:pointer;margin:2px 0}.lg span{display:inline-block;width:10px;height:10px;margin-right:5px}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--hd);padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));display:flex;gap:4px}
+.tabs button{background:#4a5a5d;color:#fff;border:0;padding:6px 16px;font:inherit;cursor:pointer}.tabs button.on{background:#fff;color:#252423}
+ul{margin:4px 0;padding-left:18px}li{margin:4px 0}.q{margin:6px 0;padding-left:8px;border-left:3px solid var(--teal)}.q small{display:block;color:var(--mu)}
+</style></head><body>
+<div class="top"><h1>Flashcart: Quick-Commerce Customer Satisfaction and Loyalty Survey</h1><small>Business Research project · data from Google Form (5 responses) · scale 1 to 5</small></div>
+
+<div class="pg on" id="p0"><div class="side v"><h4>Filters (click to select)</h4><div id="sls"></div><button onclick="clr()" style="margin-top:10px">Clear all filters</button></div>
+<div class="main"><div class="rw" id="cards"></div>
+<div class="rw"><div class="v" style="flex:2 1 320px"><h4>Average score by construct</h4><div id="bars"></div></div>
+<div class="v"><h4>Respondents by most used platform</h4><div id="d1"></div></div></div>
+<div class="rw"><div class="v"><h4>Orders in last 30 days</h4><div id="c1"></div></div><div class="v"><h4>Usual basket value</h4><div id="c2"></div></div><div class="v"><h4>Respondents by city</h4><div id="d2"></div></div></div>
+<div class="v ov"><h4>Respondent details</h4><div id="tb"></div></div></div></div>
+
+<div class="pg" id="p1"><div class="main" style="width:100%">
+<div class="rw"><div class="v" style="flex:2 1 360px"><h4>Average construct score by respondent (matrix)</h4><div class="ov" id="mx"></div></div>
+<div class="v"><h4>Satisfaction vs Loyalty by respondent</h4><div id="cc"></div></div></div>
+<div class="rw"><div class="v"><h4>Bottom 6 statements (lowest average)</h4><div id="lo"></div></div><div class="v"><h4>Top 6 statements (highest average)</h4><div id="hi"></div></div></div>
+<div class="rw"><div class="v"><h4>Open-ended answers (Q57 to Q60)</h4><div id="vq"></div></div>
+<div class="v"><h4>My observations</h4><ul id="ob"></ul></div></div></div></div>
+
+<div class="tabs"><button class="on" onclick="pg(0,this)">Overview</button><button onclick="pg(1,this)">Detailed Analysis</button></div>
+<script>
+const DB={"R": [{"id": "R1", "g": "Female", "city": "Mumbai", "ten": "More than 12 months", "p": "Zepto", "ord": "3-5", "bv": "₹500–₹999", "cat": "Snacks/beverages", "used": "Blinkit, Zepto", "s": [4, 4, 4, 4, 5, 2, 2, 5, 2, 2, 5, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 2, 2, 2, 1, 2, 1, 4, 4, 5, 5, 5, 4, 5, 4, 5, 5, 4, 2]}, {"id": "R2", "g": "Male", "city": "Thane", "ten": "More than 12 months", "p": "Blinkit", "ord": "6-10", "bv": "Below ₹250", "cat": "Snacks/beverages", "used": "Blinkit, Zepto", "s": [5, 5, 5, 4, 5, 5, 3, 4, 4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 5, 5, 5, 5, 5, 5, 4, 4, 5, 4, 4, 5, 5, 5, 5, 5, 4, 5, 5, 5, 4, 5, 4, 5]}, {"id": "R3", "g": "Male", "city": "Mumbai", "ten": "More than 12 months", "p": "Blinkit", "ord": "11+", "bv": "₹250–₹499", "cat": "Groceries", "used": "Blinkit, Zepto, Swiggy Instamart, other", "s": [4, 4, 5, 5, 5, 5, 4, 4, 5, 1, 5, 5, 5, 5, 5, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4]}, {"id": "R4", "g": "Female", "city": "Mumbai", "ten": "Less than 3 months", "p": "Other", "ord": "1-2", "bv": "Below ₹250", "cat": "Groceries", "used": "Zepto, other", "s": [2, 3, 4, 4, 4, 4, 2, 2, 2, 2, 4, 2, 2, 2, 4, 3, 3, 3, 4, 3, 4, 4, 3, 2, 2, 2, 2, 2, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 3, 3]}, {"id": "R5", "g": "Male", "city": "Mumbai", "ten": "More than 12 months", "p": "Blinkit", "ord": "3-5", "bv": "Below ₹250", "cat": "other", "used": "Blinkit, Zepto, Swiggy Instamart", "s": [4, 4, 4, 2, 4, 4, 2, 5, 4, 4, 5, 4, 4, 4, 5, 4, 5, 4, 4, 5, 5, 5, 4, 4, 5, 5, 5, 4, 2, 2, 4, 5, 4, 4, 4, 5, 4, 5, 5, 4, 4, 4]}], "items": ["Arrives within promised time", "Delivery estimates accurate", "Items arrive in good condition", "Delay communication is clear", "Orders contain correct items", "Delivery staff professional", "Needed products available", "Stock status accurate", "Alternatives easy to find", "Few out-of-stock cancellations", "Descriptions match items", "Product variety sufficient", "Prices reasonable", "Charges communicated clearly", "Bill is transparent", "Promotions give real value", "Good value for money", "Pricing fair vs alternatives", "Easy to find products", "Checkout is simple", "Payment options convenient", "App works without errors", "Tracking easy to understand", "Interface is efficient", "Easy to report a problem", "Support responds promptly", "Refunds handled fairly", "Complaint info is clear", "Support resolves problems", "Trust platform to fix mistakes", "Overall satisfied", "Meets expectations", "Recent experiences positive", "Good decision choosing it", "Satisfying experience", "Pleased with service quality", "Intend to reorder", "First choice platform", "Would recommend", "Will continue 3 months", "Prefer over competitors", "Would stay if discounts cut"], "txt": ["Fast delivery, reliable service, and convenient ordering", "My recent order arrived on time, and the items were well packed", "More consistent stock availability and accurate delivery times would make me more likely to order again.", "Please keep prices and fees transparent, improve product availability, and make it easy to resolve missing or damaged items"]},R0=DB.R,IT=DB.items,$=s=>document.getElementById(s);
+const CN=[["Delivery",0],["Availability",6],["Pricing",12],["App Experience",18],["Support",24],["Satisfaction",30],["Loyalty",36]];
+const avg=a=>a.reduce((x,y)=>x+y,0)/(a.length||1),cs=(r,i)=>avg(r.s.slice(CN[i][1],CN[i][1]+6));
+const PAL=["#01B8AA","#374649","#FD625E","#F2C80F","#8AD4EB"];
+const sel={p:new Set,city:new Set,g:new Set,ten:new Set,ord:new Set,bv:new Set};
+const SL=[["p","Most used platform"],["city","City"],["g","Gender"],["ten","Using quick commerce for"]];
+function pg(n,b){document.querySelectorAll('.pg').forEach((e,i)=>e.classList.toggle('on',i==n));document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+function tg(f,v){sel[f].has(v)?sel[f].delete(v):sel[f].add(v);draw()}
+function clr(){Object.values(sel).forEach(s=>s.clear());draw()}
+const live=()=>R0.filter(r=>Object.keys(sel).every(k=>!sel[k].size||sel[k].has(r[k])));
+const cnt=(R,k,o)=>(o||[...new Set(R0.map(r=>r[k]))]).map(v=>[v,R.filter(r=>r[k]===v).length]);
+function donut(el,k){const R=live(),d=cnt(R0,k).map(([v])=>[v,R.filter(r=>r[k]===v).length]),t=d.reduce((a,b)=>a+b[1],0),C=2*Math.PI*40;let o=0,s='';
+d.forEach(([v,n],i)=>{if(!n)return;const l=n/t*C,op=sel[k].size&&!sel[k].has(v)?.35:1;s+=`<circle r="40" cx="60" cy="60" fill="none" stroke="${PAL[i%5]}" stroke-width="24" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-o}" transform="rotate(-90 60 60)" opacity="${op}" style="cursor:pointer" onclick="tg('${k}','${v}')"><title>${v}: ${n}</title></circle>`;o+=l});
+$(el).innerHTML=`<div class="dn"><svg viewBox="0 0 120 120">${s}<text x="60" y="65" text-anchor="middle" font-size="16" fill="currentColor">${t}</text></svg><div class="lg">${d.map(([v,n],i)=>`<div onclick="tg('${k}','${v}')"><span style="background:${PAL[i%5]}"></span>${v} (${n})</div>`).join('')}</div></div>`}
+function cols(el,k,o,c){const R=live(),d=cnt(R0,k,o).map(([v])=>[v,R.filter(r=>r[k]===v).length]);
+$(el).innerHTML=`<div class="cols">${d.map(([v,n])=>`<div class="cl" onclick="tg('${k}','${v}')"><small>${n}</small><i style="height:${n*22}px;background:${c};opacity:${sel[k].size&&!sel[k].has(v)?.35:1}"></i></div>`).join('')}</div><div class="cn">${d.map(x=>`<span>${x[0]}</span>`).join('')}</div>`}
+const hb=(l,v,c)=>`<div class="hb"><span>${l}</span><div><i style="width:${v/5*100}%;background:${c}"></i></div><b>${v.toFixed(2)}</b></div>`;
+function sc(v){v=Math.max(1,Math.min(5,v));const a=v<3?[[248,105,107],[255,235,132],(v-1)/2]:[[255,235,132],[99,190,123],(v-3)/2];return`rgb(${[0,1,2].map(i=>Math.round(a[0][i]+(a[1][i]-a[0][i])*a[2])).join(',')})`}
+function draw(){const R=live();
+$('sls').innerHTML=SL.map(([k,t])=>`<div class="sh">${t}</div>`+cnt(R0,k).map(([v,n])=>`<div class="sl ${sel[k].has(v)?'s':''}" onclick="tg('${k}','${v}')"><i></i>${v}<em>${n}</em></div>`).join('')).join('');
+if(!R.length){$('cards').innerHTML='<div class="v card" style="flex:1">No data for this selection</div>';return}
+const m=CN.map((c,i)=>avg(R.map(r=>cs(r,i))));
+$('cards').innerHTML=[[R.length,'Total responses'],[m[5].toFixed(2),'Avg satisfaction'],[m[6].toFixed(2),'Avg loyalty'],[avg(R.map(r=>avg(r.s))).toFixed(2),'Avg of all 42 statements']].map(x=>`<div class="v card" style="flex:1 1 130px"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+$('bars').innerHTML=CN.map((c,i)=>hb(c[0],m[i],"#01B8AA")).join('');
+donut('d1','p');donut('d2','city');cols('c1','ord',['1-2','3-5','6-10','11+'],"#01B8AA");cols('c2','bv',['Below ₹250','₹250–₹499','₹500–₹999'],"#374649");
+$('tb').innerHTML=`<table><tr><th>Respondent</th><th>Gender</th><th>City</th><th>Most used app</th><th>Orders (30 days)</th><th>Basket</th><th>Main category</th><th class="n">Satisfaction</th><th class="n">Loyalty</th></tr>${R.map(r=>`<tr><td>${r.id}</td><td>${r.g}</td><td>${r.city}</td><td>${r.p}</td><td>${r.ord}</td><td>${r.bv}</td><td>${r.cat}</td><td class="n" style="background:${sc(cs(r,5))}">${cs(r,5).toFixed(2)}</td><td class="n" style="background:${sc(cs(r,6))}">${cs(r,6).toFixed(2)}</td></tr>`).join('')}</table>`;
+$('mx').innerHTML=`<table><tr><th>Respondent</th>${CN.map(c=>`<th class="n">${c[0]}</th>`).join('')}</tr>${R.map(r=>`<tr><td>${r.id}</td>${CN.map((c,i)=>`<td class="n" style="background:${sc(cs(r,i))};color:#252423">${cs(r,i).toFixed(2)}</td>`).join('')}</tr>`).join('')}<tr><th>Average</th>${m.map(v=>`<th class="n">${v.toFixed(2)}</th>`).join('')}</tr></table>`;
+$('cc').innerHTML=`<div class="cols" style="gap:10px">${R.map(r=>`<div class="cl" style="flex-direction:row;align-items:flex-end;gap:2px"><i style="height:${cs(r,5)*24}px;background:#01B8AA;margin:0;width:50%"></i><i style="height:${cs(r,6)*24}px;background:#374649;margin:0;width:50%"></i></div>`).join('')}</div><div class="cn">${R.map(r=>`<span>${r.id}</span>`).join('')}</div><div style="margin-top:6px;font-size:11px"><span style="color:#01B8AA">■</span> Satisfaction &nbsp;<span style="color:#374649">■</span> Loyalty</div>`;
+const im=IT.map((t,i)=>[t,avg(R.map(r=>r.s[i]))]).sort((a,b)=>a[1]-b[1]);
+$('lo').innerHTML=im.slice(0,6).map(a=>hb(a[0],a[1],"#FD625E")).join('');$('hi').innerHTML=im.slice(-6).reverse().map(a=>hb(a[0],a[1],"#01B8AA")).join('');
+}
+const T=["Biggest reason for choosing the app","Recent delivery experience","Improvement to order again","Other suggestions"];
+$('vq').innerHTML=DB.txt.map((t,i)=>`<div class="q"><small>${T[i]}</small>${t}</div>`).join('')+'<small>Only 1 of the 5 respondents filled these.</small>';
+$('ob').innerHTML=`<li>App Experience has the highest average (4.53), so people like using the app.</li><li>Support (3.27) and Availability (3.43) are the lowest two constructs.</li><li>Statements about stock availability and support resolution average only 2.6.</li><li>Satisfaction and Loyalty are both above 4, and everyone said they will order again.</li><li>Sample is only 5 students, so results are just indicative.</li>`;
+draw();
+</script></body></html>
